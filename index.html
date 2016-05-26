@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bootstrap-boxautocomplete.css">
+    <title>Starter Template for Bootstrap</title>
+  </head>
+
+  <body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      <!-- </div> -->
+    <!-- </nav> -->
+    
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>BoxAutocomplete Bootstrap/jQuery <small>By Oleksiy</small></h1>
+        <p>
+          Possible options :
+          <pre>
+            $('index#selector').boxautocomplete({
+              data: [],
+              dataUrl: false, // If set to an URL, the data is ignored and the plugin is getting the data form the given URL with AJAX
+              valueFormat: 'text', // text|json
+              delemiter: ";", // In case the format is text
+              hideInput: true, // Hides the input of the selector
+              search: false, // Display the search bar
+              searchPlaceholder: "Search for an element...",
+              searchButtonText: "Clear",
+              searchMin: 1, // The min amount of leters before the search is launched
+            });
+          </pre>
+        </p>
+        <h2>Get started</h2>
+        <p>
+        Include the CSS files:
+          <pre>
+            https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
+            https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css
+            bootstrap-boxautocomplete.css
+          </pre>
+          Include the JS files:
+          <pre>
+            https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
+            https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js
+            boxautocomplete.jquery.js
+          </pre>
+        </p>
+        <h2>Exemple 1 <small>Basic</small></h2>
+        <input type="text" class="ba-ex1 form-control" >
+        <script>
+          jQuery(document).ready(function($){
+              $('.ba-ex1').boxautocomplete({
+                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4}]
+              });
+          });
+      </script>
+      </div>
+
+      <div class="starter-template">
+        <h2>Exemple 2 <small>With visible input</small></h2>
+        <input type="text" class="ba-ex2 form-control" >
+        <script>
+          jQuery(document).ready(function($){
+              $('.ba-ex2').boxautocomplete({
+                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4}],
+                hideInput: false,
+              });
+          });
+      </script>
+      </div>
+
+
+      <div class="starter-template">
+        <h2>Exemple 3 <small>With search input and JSON value format</small></h2>
+        <input type="text" class="ba-ex3 form-control" >
+        <script>
+          jQuery(document).ready(function($){
+              $('.ba-ex3').boxautocomplete({
+                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Paris 17', 'value': 5},{'name': 'parisien', 'value': 6}, {'name': 'Parmesan', 'value': 7}, {'name': 'Palestine', 'value': 8}],
+                search: true,
+                hideInput: false,
+                valueFormat: 'json'
+              });
+          });
+      </script>
+      </div>
+
+
+      <div class="starter-template">
+        <h2>Exemple 4 <small>With ajax data</small></h2>
+        <input type="text" class="ba-ex4 form-control" >
+        <script>
+          jQuery(document).ready(function($){
+              $('.ba-ex4').boxautocomplete({
+                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4}],
+                search: true,
+                hideInput: false,
+                dataUrl: "api.php"
+              });
+          });
+      </script>
+      </div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="boxautocomplete.jquery.js"></script>
+  
+  </body>
+</html>
