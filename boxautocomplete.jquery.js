@@ -1,4 +1,9 @@
-
+/*!
+ * Bootstrap BoxAutocomplete Selector v0.1.0 (https://github.com/Djagu/bootstrap-boxautocomplete-selector.git)
+ *
+ * Copyright 2013-2014 bootstrap-boxautocomplete-selector
+ * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
+ */
       (function ( $ ) {
  
 

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="bootstrap-boxautocomplete.css">
-    <title>Starter Template for Bootstrap</title>
+    <title>Bootstrap BoxAutocomplete Selector</title>
   </head>
 
   <body>
@@ -37,11 +37,26 @@
         </div><!--/.nav-collapse -->
       <!-- </div> -->
     <!-- </nav> -->
+
+    <div class="container">
+  <div class="jumbotron">
+    <h1>Bootstrap BoxAutocomplete Selector plugin <small>By Oleksiy</small></h1>
+        <p>
+          BoxAutocomplete Selector is a jQuery/Bootstrap plugin which allow you to build some awesome data selectors and link it to your inputs.
+        </p>
+        <hr>
+        <div class="btn-group">
+            <a href="https://github.com/Djagu/bootstrap-boxautocomplete-selector" class="btn btn-default"><i class="fa fa-github"></i> Git Hub</a>
+            <a href="./bootstrap-boxautocomplete-0.1.0.zip" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+        </div>
+  </div>
+
+</div>
     
     <div class="container">
 
       <div class="starter-template">
-        <h1>BoxAutocomplete Bootstrap/jQuery <small>By Oleksiy</small></h1>
+        <h2>Options</h2>
         <p>
           Possible options :
           <pre>
@@ -123,7 +138,8 @@
                 data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4}],
                 search: true,
                 hideInput: false,
-                dataUrl: "api.php"
+                dataUrl: "api.php",
+                valueFormat: 'json'
               });
           });
       </script>
