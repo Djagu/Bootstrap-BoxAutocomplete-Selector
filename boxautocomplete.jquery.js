@@ -5,14 +5,6 @@
  * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
  */
       (function ( $ ) {
- 
-
-      function toLiteral(str) {
-          var dict = {'\b': 'b', '\t': 't', '\n': 'n', '\v': 'v', '\f': 'f', '\r': 'r'};
-          return str.replace(/([\\'"\b\t\n\v\f\r])/g, function ($0, $1) {
-              return '\\' + (dict[$1] || $1);
-          });
-        }
 
         $.fn.boxautocomplete = function( options ) {
 
@@ -26,6 +18,7 @@
             searchPlaceholder: "Search for an element...",
             searchButtonText: "Clear",
             searchMin: 1,
+            uniqueValue: true,
             getItem: function(dataItem, valueFormat){
                 var item = '<li class="list-group-item">\
                 <span class="ba-name"></span>\
@@ -36,7 +29,11 @@
               var jItem = $(item);
               jItem.find('.ba-name').html(dataItem.name);
               if (valueFormat == "json")
-                jItem.attr('data-ba-value', JSON.stringify(dataItem));
+              {
+                var dataClone = jQuery.extend(true, {}, dataItem);
+                delete dataClone.baSelected;
+                jItem.attr('data-ba-value', JSON.stringify(dataClone));
+              }
               else
                 jItem.attr('data-ba-value', dataItem.value);
 
@@ -91,13 +88,108 @@
           }, options );
 
 
+          var ba = this;
+
+          this.isValueInData = function(value)
+          {
+            var found = false;
+            var params;
+              this.each(function(index){
+                var cItems = $(this).closest('.ba-box-autocomplete').find('.ba-available-items .list-group-item');
+                var cItems2 = $(this).closest('.ba-box-autocomplete').find('.ba-selected-items .list-group-item');
+                cItems.add(cItems2);
+                cItems.each(function(){
+                  params = jQuery.parseJSON($(this).attr('data-ba-value'));
+                  if ((settings.valueFormat == "json" && params.value == value) || (settings.valueFormat == "text" && params == value))
+                  {
+                      found = true;
+                      return true;
+                  }
+                });
+                if (found == true)
+                  return true;
+              });
+              return found;
+          };
+
+          this.addDataItem = function(iData, iContainer){
+
+              console.log("Add data item function...");
+              var max = 1;
+              var l;
+              var cContainer;
+              if (iContainer === undefined)
+              {
+                  max = ba.length;
+              }
+              console.log("Max = " + max);
+              var items = [];
+              // Si on n'accepte que des valeurs uniques
+              if (settings.uniqueValue === true)
+              {
+                console.log("Values must be uniques...");
+                  if (iData === undefined || iData.value === undefined || ba.isValueInData(iData.value))
+                  {
+                    console.log("Return in unique data item..");
+                    console.log("Concerned data = " + iData.value);
+                      return items;
+                  }
+              }
+              for (l = 0; l < max; l++)
+              {
+                  if (iContainer === undefined)
+                  {
+                    cContainer = ba.eq(l).parent().find('.ba-available-items');
+                    console.log("container = " + cContainer);
+                  }
+                  else
+                  {
+                    cContainer = iContainer;
+                  }
+                  var item = settings.getItem(iData, settings.valueFormat);
+                    // Attaching click event
+                    console.log("item buttons length = " + item.find('.ba-add').length);
+                  item.find('.ba-add').off('click').click(function(e){
+                  e.preventDefault();
+                  $(this).toggleClass('hide');
+                  var k = $(this).closest('.list-group-item');
+                  k.find('.ba-remove').toggleClass('hide');
+                  selected = $(this).closest('.ba-box-autocomplete').find('.ba-selected-items');
+                  selected.scrollTop(selected[0].scrollHeight + 50);
+                  k.appendTo(selected);
+                  settings.updateInput(cContainer.closest('.ba-box-autocomplete').find('input:not(.ba-search)'), settings.valueFormat);
+                  });
+                  item.find('.ba-remove').off('click').click(function(e){
+                      e.preventDefault();
+                      $(this).toggleClass('hide');
+                      var k = $(this).closest('.list-group-item');
+                      k.find('.ba-add').toggleClass('hide');
+                      k.appendTo($(this).closest('.ba-box-autocomplete').find('.ba-available-items'));
+                      settings.updateInput(cContainer.closest('.ba-box-autocomplete').find('input:not(.ba-search)'), settings.valueFormat);
+                  });
+                  cContainer.append(item);
+                  items.push(item);
+              }
+              return items;
+            };
+
+            this.addSelectedItem = function(item)
+            {
+                var ret = ba.addDataItem(item);
+                for (var r in ret)
+                {
+                    ret[r].find('.ba-add').click();
+                }
+            };
+
 
           var readyDataLaunch = function(el)
           {
               // For each input on which we would like to put the box autocomplete
               var selectedContainer;
-          var availableContainer;
-          var i;
+              var availableContainer;
+              var i;
+              var inputValue
           el.each(function(){
             if (settings.hideInput === true)
               $(this).hide();
@@ -105,6 +197,19 @@
             $(this).before('<div class="col-md-6"><ul class="list-group ba-available-items"></ul></div>');
             $(this).before('<div class="col-md-6"><ul class="list-group ba-selected-items"></ul></div>');
             availableContainer = $(this).parent().find('.ba-available-items');
+
+            // Append the items that can appear in the input value by default
+            inputValue = $(this).attr('value');
+            if (inputValue !== undefined && inputValue.length > 0)
+            {
+              inputValue = $.parseJSON(inputValue);
+              for (i in inputValue)
+              {
+                inputValue[i].baSelected = true;
+                settings.data.push(inputValue[i]);
+              }
+            }
+
             // Search functionnality
             if (settings.search === true)
             {
@@ -131,33 +236,19 @@
               });
             
             }
-            var item;
-            var input = $(this);
-            var selected;
-              for (i in settings.data)
-              {
-                  item = settings.getItem(settings.data[i], settings.valueFormat);
-                  // Attaching click event
-                  item.find('.ba-add').off('click').click(function(e){
-                      e.preventDefault();
-                      $(this).toggleClass('hide');
-                      var k = $(this).closest('.list-group-item');
-                      k.find('.ba-remove').toggleClass('hide');
-                      selected = $(this).closest('.ba-box-autocomplete').find('.ba-selected-items');
-                      selected.scrollTop(selected[0].scrollHeight + 50);
-                      k.appendTo(selected);
-                      settings.updateInput(input, settings.valueFormat);
-                  });
-                  item.find('.ba-remove').off('click').click(function(e){
-                      e.preventDefault();
-                      $(this).toggleClass('hide');
-                      var k = $(this).closest('.list-group-item');
-                      k.find('.ba-add').toggleClass('hide');
-                      k.appendTo($(this).closest('.ba-box-autocomplete').find('.ba-available-items'));
-                      settings.updateInput(input, settings.valueFormat);
-                  });
-                  availableContainer.append(item);
-              }
+            var items;
+            for (i in settings.data)
+            {
+                items = ba.addDataItem(settings.data[i], availableContainer);
+                if (settings.data[i].baSelected == true)
+                {
+                  var j;
+                  for (j in items)
+                  {
+                    items[j].find('.ba-add').click();
+                  }
+                }
+            }
           });
           };
       
@@ -175,9 +266,6 @@
           {
             readyDataLaunch(this);
           }
-
-
-        
           return this;
       };
  

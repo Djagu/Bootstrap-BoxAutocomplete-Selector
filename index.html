@@ -47,7 +47,7 @@
         <hr>
         <div class="btn-group">
             <a href="https://github.com/Djagu/bootstrap-boxautocomplete-selector" class="btn btn-default"><i class="fa fa-github"></i> Git Hub</a>
-            <a href="./bootstrap-boxautocomplete-0.1.0.zip" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+            <a href="./bootstrap-boxautocomplete-last.zip" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
         </div>
   </div>
 
@@ -89,52 +89,46 @@
           </pre>
         </p>
         <h2>Exemple 1 <small>Basic</small></h2>
-        <input type="text" class="ba-ex1 form-control" >
+        <input type="text" class="ba-ex1 form-control" value="[{&quot;name&quot;: &quot;Test 0&quot;, &quot;value&quot;: 0}, {&quot;name&quot;: &quot;Test -1&quot;, &quot;value&quot;: -1}]">
         <script>
           jQuery(document).ready(function($){
               $('.ba-ex1').boxautocomplete({
-                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4}]
+                data: [{'name': 'Test 1', 'value': 1}, {'name': 'Test 2', 'value': 2}, {'name': 'Test 3', 'value': 3}],
+                uniqueValue: false,
+                hideInput: false,
+                valueFormat: "json"
               });
           });
       </script>
       </div>
 
+
       <div class="starter-template">
-        <h2>Exemple 2 <small>With visible input</small></h2>
+        <h2>Exemple 2 <small>With search input and JSON value format</small></h2>
         <input type="text" class="ba-ex2 form-control" >
         <script>
           jQuery(document).ready(function($){
-              $('.ba-ex2').boxautocomplete({
-                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4}],
+              var ex3 = $('.ba-ex2').boxautocomplete({
+                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}],
+                search: true,
                 hideInput: false,
+                valueFormat: 'json',
+                uniqueValue: true
               });
+
+              ex3.addDataItem({'name': 'Hello', 'value': 4});
+              ex3.addSelectedItem({'name': 'Selected item :D', 'value': 6});
           });
       </script>
       </div>
 
 
       <div class="starter-template">
-        <h2>Exemple 3 <small>With search input and JSON value format</small></h2>
+        <h2>Exemple 3 <small>With ajax data</small></h2>
         <input type="text" class="ba-ex3 form-control" >
         <script>
           jQuery(document).ready(function($){
               $('.ba-ex3').boxautocomplete({
-                data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Paris 17', 'value': 5},{'name': 'parisien', 'value': 6}, {'name': 'Parmesan', 'value': 7}, {'name': 'Palestine', 'value': 8}],
-                search: true,
-                hideInput: false,
-                valueFormat: 'json'
-              });
-          });
-      </script>
-      </div>
-
-
-      <div class="starter-template">
-        <h2>Exemple 4 <small>With ajax data</small></h2>
-        <input type="text" class="ba-ex4 form-control" >
-        <script>
-          jQuery(document).ready(function($){
-              $('.ba-ex4').boxautocomplete({
                 data: [{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4},{'name': 'Paris', 'value': 1}, {'name': 'Moscow', 'value': 2}, {'name': 'Berlin', 'value': 3}, {'name': 'Palma de Majorque', 'value': 4}],
                 search: true,
                 hideInput: false,
