@@ -17,3 +17,9 @@
 {
 	margin: 0 10px;
 }
+
+
+.ba-box-autocomplete .ba-amount-value
+{
+	min-width: 50px;
+}
