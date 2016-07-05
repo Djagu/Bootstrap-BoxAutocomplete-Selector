@@ -2,7 +2,7 @@
  * Bootstrap BoxAutocomplete Selector v0.1.0 (https://github.com/Djagu/bootstrap-boxautocomplete-selector.git)
  *
  * Copyright 2016 bootstrap-boxautocomplete-selector
- * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
+ * Licensed under MIT 
  */
 (function ( $ ) {
 
@@ -19,6 +19,10 @@
             searchButtonText: "Clear",
             searchMin: 1,
             uniqueValue: true,
+            withAmount: true,
+            withCategory: true,
+            allCategories: false,
+            allCategoriesText: "All",
             getItem: function(dataItem, valueFormat){
                 var item = '<li class="list-group-item">\
                 <span class="ba-name"></span>\
@@ -67,13 +71,20 @@
             updateDataList: function(data){
 
             },
-            searchFilterBy: function(itemsContainer, filter){
+            searchFilterBy: function(itemsContainer, filter, category){
 
+                var baItem;
                 if (itemsContainer !== undefined)
                 {
                     console.log("Begin to search...");
                     itemsContainer.find('.list-group-item').each(function(){
-                        if($(this).find('.ba-name').eq(0).text().toLowerCase().indexOf(filter.toLowerCase()) != -1)
+                        baItem = jQuery.parseJSON($(this).attr('data-ba-value'));
+
+                        console.log("Trying to find : " + baItem.name + "/" + filter.toLowerCase());
+                        if(
+                            (baItem.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) &&
+                            (category === undefined || category === "all" || baItem.category === undefined || (category !== undefined && baItem.category !== undefined && category === baItem.category))
+                        )
                         {
                             console.log("Fuond ");
                             $(this).show();
@@ -218,6 +229,18 @@
             var availableContainer;
             var i, j;
             var inputValue;
+            var baCategories = [];
+
+            var getCategorySelectValue = function(container)
+            {
+                var selectCategoryEl = container.find('.ba-select-category');
+                if (selectCategoryEl !== undefined && selectCategoryEl.length > 0)
+                {
+                    return selectCategoryEl.val();
+                }
+                return "";
+            };
+
             el.each(function(){
 
                 // Avoid to be initialised many times
@@ -260,6 +283,8 @@
                     }
                 }
 
+
+
                 // Search functionnality
                 if (settings.search === true)
                 {
@@ -278,7 +303,7 @@
                         e.stopImmediatePropagation();
                         $(this).closest('.ba-box-autocomplete').find('input.ba-search').val("");
                         //$(this).attr("value", "")
-                        e.data.settings.searchFilterBy($(this).closest(".ba-available-items"), "");
+                        e.data.settings.searchFilterBy($(this).closest(".ba-available-items"), "", getCategorySelectValue($(this).closest(".ba-available-items")));
                     });
 
                     $(document).on('keyup', 'input.ba-search', {
@@ -292,20 +317,31 @@
                         e.stopImmediatePropagation();
                         if ($(this).val().length >= e.data.settings.searchMin)
                         {
-                            e.data.settings.searchFilterBy($(this).closest('.ba-available-items'), $(this).val());
+                            e.data.settings.searchFilterBy($(this).closest('.ba-available-items'), $(this).val(), getCategorySelectValue($(this).closest(".ba-available-items")));
                             console.log("Filter by = " + $(this).val());
                         }
                         else
                         {
                             // Reset data list
-                            e.data.settings.searchFilterBy($(this).closest(".ba-available-items"), "");
+                            e.data.settings.searchFilterBy($(this).closest(".ba-available-items"), "", getCategorySelectValue($(this).closest(".ba-available-items")));
                         }
                     });
-
                 }
                 var items;
                 for (i in settings.data)
                 {
+                    if (settings.withCategory === true)
+                    {
+                        if (settings.data[i].category !== undefined)
+                        {
+                            if (baCategories.indexOf(settings.data[i].category) == -1)
+                            {
+                                console.log("Adding category = " + settings.data[i].category);
+                                baCategories.push(settings.data[i].category);
+                            }
+                        }
+                    }
+                    console.log("DATA = ///");
                     console.log(JSON.stringify(settings.data[i]));
                     items = ba.addDataItem(settings.data[i], availableContainer);
                     if (settings.data[i].baSelected === true)
@@ -316,10 +352,56 @@
                         for (j in items)
                         {
                             items[j].find('.ba-add').click();
-
                         }
                     }
                 }
+
+                // If category handling is requested
+                if (settings.withCategory === true)
+                {
+                    var baCategoryContainer = $("<select class='ba-select-category form-control'></select>");
+                    console.log("baCategories = " + JSON.stringify(baCategories));
+                    for (i in baCategories)
+                    {
+                        baCategoryContainer.append('<option value="' + baCategories[i] + '">' + baCategories[i].charAt(0).toUpperCase() + baCategories[i].slice(1) + '</option>');
+                    }
+                    if (settings.allCategories === true)
+                    {
+                        baCategoryContainer.prepend('<option value="all" selected=selected>' + settings.allCategoriesText + '</option>');
+                    }
+                    availableContainer.prepend(baCategoryContainer);
+
+
+
+                    $(document).on('change', '.ba-select-category', {
+                        currentSelectCategory: baCategoryContainer,
+                        settings: settings
+                    }, function(e){
+                        var baCBox = $(this).closest('.ba-box-autocomplete');
+                        var inputToSearch = "";
+                        var categoryToSearch = "all";
+                        if (baCBox.attr('data-ba-uid') !== e.data.currentSelectCategory.closest('.ba-box-autocomplete').attr('data-ba-uid'))
+                        {
+                            return false;
+                        }
+                        e.stopImmediatePropagation();
+
+                        
+                        if (settings.search === true)
+                        {
+                            inputToSearch = baCBox.find('input.ba-search').val();
+                            if (inputToSearch.length < e.data.settings.searchMin)
+                            {
+                                inputToSearch = "";
+                            }
+                        }
+                        categoryToSearch = $(this).val();
+                        e.data.settings.searchFilterBy($(this).closest(".ba-available-items"), inputToSearch, categoryToSearch);
+                    });
+                }
+
+                // To sort by categories
+                baCategoryContainer.change();
             });
 
             //Clear the data var
@@ -333,7 +415,7 @@
             settings.data = [];
             $.get(settings.dataUrl).then(function(data){
                 console.log("Data 2 = " + JSON.stringify(data));
-                settings.data = data;
+                settings.data = $.parseJSON(data);
                 readyDataLaunch(that);
             });
         }
